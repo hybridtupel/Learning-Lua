@@ -12,9 +12,12 @@ VillainMeta = {
         }
         setmetatable(obj, self)
         self.__index = self
+        self.__tostring = function(table)
+            return table.name .. " " .. table.health
+        end
 
         return obj
-    end
+    end,
 }
 
 
@@ -23,28 +26,13 @@ Villain = {
 }
 setmetatable(Villain, VillainMeta)
 
-function Villain:new(name)
-    local obj = {
-        name = name,
-        health = self.health
-    }
-    setmetatable(obj, self)
-    self.__index = self
-    self.__tostring = function(table)
-        return table.name .. " " .. table.health
-    end
-
-
-    return obj
-end
-
-
 function Villain:take_hit()
     self.health = self.health - 10
 end
 
 
-SuperVillain = Villain:new()
+SuperVillain = Villain()
+setmetatable(SuperVillain, VillainMeta)
 
 function SuperVillain:take_hit()
     self.health = self.health - 5
@@ -57,6 +45,6 @@ print(heinz)
 
 print(dietrich)
 
-toht = SuperVillain:new("Toht")
+toht = SuperVillain("Toht")
 toht.take_hit(toht)
 print(toht)
