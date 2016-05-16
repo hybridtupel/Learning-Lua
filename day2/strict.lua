@@ -15,7 +15,7 @@ function strict_read(table, key)
 end
 
 function strict_write(table, key, value)
-    if _private[key] then
+    if _private[key] and value then
         error("Duplicate key: " .. key)
     else
         _private[key] = value
@@ -34,4 +34,9 @@ treasure.gold = 50
 
 print(treasure.gold)
 
+
+treasure.gold = nil
+
 treasure.gold = 100
+
+print(treasure.gold)
